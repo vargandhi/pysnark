@@ -50,7 +50,7 @@ PySNARK is experimental and **not fit for production environment**.
 ## Installation
 
 ```
-pip3 install git+https://github.com/meilof/pysnark
+pip3 install git+https://github.com/vargandhi/pysnark
 ```
 
 To use the `libsnark` backend, do
