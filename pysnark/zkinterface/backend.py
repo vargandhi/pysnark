@@ -97,15 +97,15 @@ def prove():
     # TODO: this is pretty slow, maybe use this to improve performance:
     # https://github.com/google/flatbuffers/issues/4668
     
-    fh = open('inputs.zkif', 'wb')
+    fh = open('zkif/inputs.zkif', 'wb')
     write_input(fh)
     fh.close()
 
-    fcs = open('constraints.zkif', 'wb')
+    fcs = open('zkif/constraints.zkif', 'wb')
     write_constraints(fcs)
     fcs.close()
 
-    fw = open('witness.zkif', 'wb')
+    fw = open('zkif/witness.zkif', 'wb')
     write_witness(fw)
     fw.close()
     

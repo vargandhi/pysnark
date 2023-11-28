@@ -85,27 +85,38 @@ class ConstraintSystem(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         return o == 0
 
-def Start(builder): builder.StartObject(2)
 def ConstraintSystemStart(builder):
-    """This method is deprecated. Please switch to Start."""
-    return Start(builder)
-def AddConstraints(builder, constraints): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(constraints), 0)
+    builder.StartObject(2)
+
+def Start(builder):
+    ConstraintSystemStart(builder)
+
 def ConstraintSystemAddConstraints(builder, constraints):
-    """This method is deprecated. Please switch to AddConstraints."""
-    return AddConstraints(builder, constraints)
-def StartConstraintsVector(builder, numElems): return builder.StartVector(4, numElems, 4)
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(constraints), 0)
+
+def AddConstraints(builder, constraints):
+    ConstraintSystemAddConstraints(builder, constraints)
+
 def ConstraintSystemStartConstraintsVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartConstraintsVector(builder, numElems)
-def AddInfo(builder, info): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(info), 0)
+    return builder.StartVector(4, numElems, 4)
+
+def StartConstraintsVector(builder, numElems: int) -> int:
+    return ConstraintSystemStartConstraintsVector(builder, numElems)
+
 def ConstraintSystemAddInfo(builder, info):
-    """This method is deprecated. Please switch to AddInfo."""
-    return AddInfo(builder, info)
-def StartInfoVector(builder, numElems): return builder.StartVector(4, numElems, 4)
+    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(info), 0)
+
+def AddInfo(builder, info):
+    ConstraintSystemAddInfo(builder, info)
+
 def ConstraintSystemStartInfoVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartInfoVector(builder, numElems)
-def End(builder): return builder.EndObject()
+    return builder.StartVector(4, numElems, 4)
+
+def StartInfoVector(builder, numElems: int) -> int:
+    return ConstraintSystemStartInfoVector(builder, numElems)
+
 def ConstraintSystemEnd(builder):
-    """This method is deprecated. Please switch to End."""
-    return End(builder)
+    return builder.EndObject()
+
+def End(builder):
+    return ConstraintSystemEnd(builder)

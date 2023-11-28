@@ -805,7 +805,7 @@ namevals = {}
 
 def final():
     if autoprove:
-        print("VBG auto prove initiatited")  
+        print("VBG auto prove initiated")  
         backend.prove()
     else :
         if backend.process_snark: backend.process_snark(operation,namevals)

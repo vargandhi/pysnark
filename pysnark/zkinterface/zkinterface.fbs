@@ -151,7 +151,7 @@ table Variables {
 table KeyValue {
     key                     :string;
     // The value goes into one the following:
-    data                    :[ubyte];
+    value                    :[ubyte];
     text                    :string;
     number                  :int64;
 }

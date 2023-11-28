@@ -83,27 +83,38 @@ class Command(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
         return o == 0
 
-def Start(builder): builder.StartObject(3)
 def CommandStart(builder):
-    """This method is deprecated. Please switch to Start."""
-    return Start(builder)
-def AddConstraintsGeneration(builder, constraintsGeneration): builder.PrependBoolSlot(0, constraintsGeneration, 0)
+    builder.StartObject(3)
+
+def Start(builder):
+    CommandStart(builder)
+
 def CommandAddConstraintsGeneration(builder, constraintsGeneration):
-    """This method is deprecated. Please switch to AddConstraintsGeneration."""
-    return AddConstraintsGeneration(builder, constraintsGeneration)
-def AddWitnessGeneration(builder, witnessGeneration): builder.PrependBoolSlot(1, witnessGeneration, 0)
+    builder.PrependBoolSlot(0, constraintsGeneration, 0)
+
+def AddConstraintsGeneration(builder, constraintsGeneration):
+    CommandAddConstraintsGeneration(builder, constraintsGeneration)
+
 def CommandAddWitnessGeneration(builder, witnessGeneration):
-    """This method is deprecated. Please switch to AddWitnessGeneration."""
-    return AddWitnessGeneration(builder, witnessGeneration)
-def AddParameters(builder, parameters): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(parameters), 0)
+    builder.PrependBoolSlot(1, witnessGeneration, 0)
+
+def AddWitnessGeneration(builder, witnessGeneration):
+    CommandAddWitnessGeneration(builder, witnessGeneration)
+
 def CommandAddParameters(builder, parameters):
-    """This method is deprecated. Please switch to AddParameters."""
-    return AddParameters(builder, parameters)
-def StartParametersVector(builder, numElems): return builder.StartVector(4, numElems, 4)
+    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(parameters), 0)
+
+def AddParameters(builder, parameters):
+    CommandAddParameters(builder, parameters)
+
 def CommandStartParametersVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartParametersVector(builder, numElems)
-def End(builder): return builder.EndObject()
+    return builder.StartVector(4, numElems, 4)
+
+def StartParametersVector(builder, numElems: int) -> int:
+    return CommandStartParametersVector(builder, numElems)
+
 def CommandEnd(builder):
-    """This method is deprecated. Please switch to End."""
-    return End(builder)
+    return builder.EndObject()
+
+def End(builder):
+    return CommandEnd(builder)

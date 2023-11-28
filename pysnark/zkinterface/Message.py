@@ -8,4 +8,3 @@ class Message(object):
     ConstraintSystem = 2
     Witness = 3
     Command = 4
-

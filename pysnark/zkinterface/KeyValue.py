@@ -39,7 +39,7 @@ class KeyValue(object):
         return None
 
     # KeyValue
-    def Data(self, j):
+    def Value(self, j):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
             a = self._tab.Vector(o)
@@ -47,21 +47,21 @@ class KeyValue(object):
         return 0
 
     # KeyValue
-    def DataAsNumpy(self):
+    def ValueAsNumpy(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
             return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Uint8Flags, o)
         return 0
 
     # KeyValue
-    def DataLength(self):
+    def ValueLength(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
             return self._tab.VectorLen(o)
         return 0
 
     # KeyValue
-    def DataIsNone(self):
+    def ValueIsNone(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         return o == 0
 
@@ -79,31 +79,44 @@ class KeyValue(object):
             return self._tab.Get(flatbuffers.number_types.Int64Flags, o + self._tab.Pos)
         return 0
 
-def Start(builder): builder.StartObject(4)
 def KeyValueStart(builder):
-    """This method is deprecated. Please switch to Start."""
-    return Start(builder)
-def AddKey(builder, key): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(key), 0)
+    builder.StartObject(4)
+
+def Start(builder):
+    KeyValueStart(builder)
+
 def KeyValueAddKey(builder, key):
-    """This method is deprecated. Please switch to AddKey."""
-    return AddKey(builder, key)
-def AddData(builder, data): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(data), 0)
-def KeyValueAddData(builder, data):
-    """This method is deprecated. Please switch to AddData."""
-    return AddData(builder, data)
-def StartDataVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def KeyValueStartDataVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartDataVector(builder, numElems)
-def AddText(builder, text): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(text), 0)
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(key), 0)
+
+def AddKey(builder, key):
+    KeyValueAddKey(builder, key)
+
+def KeyValueAddValue(builder, value):
+    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(value), 0)
+
+def AddValue(builder, value):
+    KeyValueAddValue(builder, value)
+
+def KeyValueStartValueVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartValueVector(builder, numElems: int) -> int:
+    return KeyValueStartValueVector(builder, numElems)
+
 def KeyValueAddText(builder, text):
-    """This method is deprecated. Please switch to AddText."""
-    return AddText(builder, text)
-def AddNumber(builder, number): builder.PrependInt64Slot(3, number, 0)
+    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(text), 0)
+
+def AddText(builder, text):
+    KeyValueAddText(builder, text)
+
 def KeyValueAddNumber(builder, number):
-    """This method is deprecated. Please switch to AddNumber."""
-    return AddNumber(builder, number)
-def End(builder): return builder.EndObject()
+    builder.PrependInt64Slot(3, number, 0)
+
+def AddNumber(builder, number):
+    KeyValueAddNumber(builder, number)
+
 def KeyValueEnd(builder):
-    """This method is deprecated. Please switch to End."""
-    return End(builder)
+    return builder.EndObject()
+
+def End(builder):
+    return KeyValueEnd(builder)

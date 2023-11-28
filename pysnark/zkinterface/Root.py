@@ -45,19 +45,26 @@ class Root(object):
             return obj
         return None
 
-def Start(builder): builder.StartObject(2)
 def RootStart(builder):
-    """This method is deprecated. Please switch to Start."""
-    return Start(builder)
-def AddMessageType(builder, messageType): builder.PrependUint8Slot(0, messageType, 0)
+    builder.StartObject(2)
+
+def Start(builder):
+    RootStart(builder)
+
 def RootAddMessageType(builder, messageType):
-    """This method is deprecated. Please switch to AddMessageType."""
-    return AddMessageType(builder, messageType)
-def AddMessage(builder, message): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(message), 0)
+    builder.PrependUint8Slot(0, messageType, 0)
+
+def AddMessageType(builder, messageType):
+    RootAddMessageType(builder, messageType)
+
 def RootAddMessage(builder, message):
-    """This method is deprecated. Please switch to AddMessage."""
-    return AddMessage(builder, message)
-def End(builder): return builder.EndObject()
+    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(message), 0)
+
+def AddMessage(builder, message):
+    RootAddMessage(builder, message)
+
 def RootEnd(builder):
-    """This method is deprecated. Please switch to End."""
-    return End(builder)
+    return builder.EndObject()
+
+def End(builder):
+    return RootEnd(builder)

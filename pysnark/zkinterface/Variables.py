@@ -136,35 +136,50 @@ class Variables(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
         return o == 0
 
-def Start(builder): builder.StartObject(3)
 def VariablesStart(builder):
-    """This method is deprecated. Please switch to Start."""
-    return Start(builder)
-def AddVariableIds(builder, variableIds): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(variableIds), 0)
+    builder.StartObject(3)
+
+def Start(builder):
+    VariablesStart(builder)
+
 def VariablesAddVariableIds(builder, variableIds):
-    """This method is deprecated. Please switch to AddVariableIds."""
-    return AddVariableIds(builder, variableIds)
-def StartVariableIdsVector(builder, numElems): return builder.StartVector(8, numElems, 8)
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(variableIds), 0)
+
+def AddVariableIds(builder, variableIds):
+    VariablesAddVariableIds(builder, variableIds)
+
 def VariablesStartVariableIdsVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartVariableIdsVector(builder, numElems)
-def AddValues(builder, values): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(values), 0)
+    return builder.StartVector(8, numElems, 8)
+
+def StartVariableIdsVector(builder, numElems: int) -> int:
+    return VariablesStartVariableIdsVector(builder, numElems)
+
 def VariablesAddValues(builder, values):
-    """This method is deprecated. Please switch to AddValues."""
-    return AddValues(builder, values)
-def StartValuesVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(values), 0)
+
+def AddValues(builder, values):
+    VariablesAddValues(builder, values)
+
 def VariablesStartValuesVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartValuesVector(builder, numElems)
-def AddInfo(builder, info): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(info), 0)
+    return builder.StartVector(1, numElems, 1)
+
+def StartValuesVector(builder, numElems: int) -> int:
+    return VariablesStartValuesVector(builder, numElems)
+
 def VariablesAddInfo(builder, info):
-    """This method is deprecated. Please switch to AddInfo."""
-    return AddInfo(builder, info)
-def StartInfoVector(builder, numElems): return builder.StartVector(4, numElems, 4)
+    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(info), 0)
+
+def AddInfo(builder, info):
+    VariablesAddInfo(builder, info)
+
 def VariablesStartInfoVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartInfoVector(builder, numElems)
-def End(builder): return builder.EndObject()
+    return builder.StartVector(4, numElems, 4)
+
+def StartInfoVector(builder, numElems: int) -> int:
+    return VariablesStartInfoVector(builder, numElems)
+
 def VariablesEnd(builder):
-    """This method is deprecated. Please switch to End."""
-    return End(builder)
+    return builder.EndObject()
+
+def End(builder):
+    return VariablesEnd(builder)

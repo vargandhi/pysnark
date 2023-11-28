@@ -66,23 +66,32 @@ class BilinearConstraint(object):
             return obj
         return None
 
-def Start(builder): builder.StartObject(3)
 def BilinearConstraintStart(builder):
-    """This method is deprecated. Please switch to Start."""
-    return Start(builder)
-def AddLinearCombinationA(builder, linearCombinationA): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(linearCombinationA), 0)
+    builder.StartObject(3)
+
+def Start(builder):
+    BilinearConstraintStart(builder)
+
 def BilinearConstraintAddLinearCombinationA(builder, linearCombinationA):
-    """This method is deprecated. Please switch to AddLinearCombinationA."""
-    return AddLinearCombinationA(builder, linearCombinationA)
-def AddLinearCombinationB(builder, linearCombinationB): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(linearCombinationB), 0)
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(linearCombinationA), 0)
+
+def AddLinearCombinationA(builder, linearCombinationA):
+    BilinearConstraintAddLinearCombinationA(builder, linearCombinationA)
+
 def BilinearConstraintAddLinearCombinationB(builder, linearCombinationB):
-    """This method is deprecated. Please switch to AddLinearCombinationB."""
-    return AddLinearCombinationB(builder, linearCombinationB)
-def AddLinearCombinationC(builder, linearCombinationC): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(linearCombinationC), 0)
+    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(linearCombinationB), 0)
+
+def AddLinearCombinationB(builder, linearCombinationB):
+    BilinearConstraintAddLinearCombinationB(builder, linearCombinationB)
+
 def BilinearConstraintAddLinearCombinationC(builder, linearCombinationC):
-    """This method is deprecated. Please switch to AddLinearCombinationC."""
-    return AddLinearCombinationC(builder, linearCombinationC)
-def End(builder): return builder.EndObject()
+    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(linearCombinationC), 0)
+
+def AddLinearCombinationC(builder, linearCombinationC):
+    BilinearConstraintAddLinearCombinationC(builder, linearCombinationC)
+
 def BilinearConstraintEnd(builder):
-    """This method is deprecated. Please switch to End."""
-    return End(builder)
+    return builder.EndObject()
+
+def End(builder):
+    return BilinearConstraintEnd(builder)

@@ -44,15 +44,20 @@ class Witness(object):
             return obj
         return None
 
-def Start(builder): builder.StartObject(1)
 def WitnessStart(builder):
-    """This method is deprecated. Please switch to Start."""
-    return Start(builder)
-def AddAssignedVariables(builder, assignedVariables): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(assignedVariables), 0)
+    builder.StartObject(1)
+
+def Start(builder):
+    WitnessStart(builder)
+
 def WitnessAddAssignedVariables(builder, assignedVariables):
-    """This method is deprecated. Please switch to AddAssignedVariables."""
-    return AddAssignedVariables(builder, assignedVariables)
-def End(builder): return builder.EndObject()
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(assignedVariables), 0)
+
+def AddAssignedVariables(builder, assignedVariables):
+    WitnessAddAssignedVariables(builder, assignedVariables)
+
 def WitnessEnd(builder):
-    """This method is deprecated. Please switch to End."""
-    return End(builder)
+    return builder.EndObject()
+
+def End(builder):
+    return WitnessEnd(builder)
