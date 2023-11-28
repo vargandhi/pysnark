@@ -3,6 +3,8 @@
 import importlib
 import os
 import sys
+from spzk import main_spzk
+
 
 backend = None
 backend_name = None
@@ -18,15 +20,28 @@ backends = [
     ["nobackend",   "pysnark.nobackend"]
 ]
 
-for mod in backends:
+# Harcode libsnark as the backend
+#backend_name = backends[0][0]
+#backend = importlib.import_module(backends[0][1])
+
+# Hardcode zkinterface as the backend
+backend_name = backends[4][0]
+backend = importlib.import_module(backends[4][1])
+
+"""for mod in backends:
+    #print("VBG1 list all-", str(mod[0]))
     if mod[1] in sys.modules:
+        #print("VBG 1 found-", str(mod[0]))
         backend_name = mod[0]
         backend = sys.modules[mod[1]]
         break
 
 if backend is None and "PYSNARK_BACKEND" in os.environ:
+    print("VBG2 entered-")
     for mod in backends:
+        #print("VBG2  list all-")
         if os.environ["PYSNARK_BACKEND"]==mod[0]:
+            print("VBG 2 found -", str(mod[0]))
             backend_name = mod[0]
             backend = importlib.import_module(mod[1])
     if backend is None:
@@ -34,7 +49,8 @@ if backend is None and "PYSNARK_BACKEND" in os.environ:
 
 if backend is None:
     try:
-        get_ipython()
+        print("VBG NONE backend")
+        #get_ipython()
         import pysnark.nobackend
         backend_name = "nobackend"
         backend = pysnark.nobackend
@@ -46,6 +62,8 @@ if backend is None:
                 break
             except Exception as e:
                 print("*** Error loading backend " + str(mod[1]) + ":", e)
+"""
+# Logic separation between the two commented snippets, i.e., above and below
 
 """
 Operating principles:
@@ -760,6 +778,9 @@ Can be used as a decorator, e.g.,
 9
 """
 def snark(fn):
+    print("VBG Snark")
+    
+
     def snark__(*args, **kwargs):
         from pysnark.fixedpoint import PubValFxp, LinCombFxp
         from pysnark.boolean import PubValBool, LinCombBool
@@ -775,7 +796,7 @@ def snark(fn):
         retcopy = for_each_in(lambda x: x.val() if isinstance(x,LinCombBool) else x, retcopy)
 
         return retcopy
-        
+    
     return snark__
 
 autoprove = True
@@ -783,7 +804,9 @@ operation = None
 namevals = {}
 
 def final():
-    if autoprove: backend.prove()
+    if autoprove:
+        print("VBG auto prove initiatited")  
+        backend.prove()
     else :
         if backend.process_snark: backend.process_snark(operation,namevals)
 

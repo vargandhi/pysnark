@@ -1,6 +1,7 @@
 import flatbuffers
 import math
 import sys
+from spzk import main_spzk 
 
 import pysnark.gmpy as gmpy
 
@@ -11,6 +12,8 @@ import pysnark.zkinterface.ConstraintSystem as ConstraintSystem
 import pysnark.zkinterface.Root as Root
 import pysnark.zkinterface.Variables as Variables
 import pysnark.zkinterface.Witness as Witness
+
+
 
 modulus=21888242871839275222246405745257275088548364400416034343698204186575808495617
 BL=math.ceil(modulus.bit_length()/8)
@@ -94,24 +97,39 @@ def prove():
     # TODO: this is pretty slow, maybe use this to improve performance:
     # https://github.com/google/flatbuffers/issues/4668
     
-    f = open('computation.zkif', 'wb')
-    write_circuit(f)
-    write_witness(f)
-    write_constraints(f)
-    f.close()     	
-    print("*** zkinterface circuit, witness, constraints written to 'computation.zkif'")
-    
-    f = open('circuit.zkif', 'wb')
-    write_circuit(f)
-    write_constraints(f)
-    f.close()     	
-    print("*** zkinterface circuit, constraints written to 'circuit.zkif'")
+    fh = open('inputs.zkif', 'wb')
+    write_input(fh)
+    fh.close()
 
-def write_circuit(f):    
-    print("*** zkinterface: writing circuit", file=sys.stderr)
+    fcs = open('constraints.zkif', 'wb')
+    write_constraints(fcs)
+    fcs.close()
+
+    fw = open('witness.zkif', 'wb')
+    write_witness(fw)
+    fw.close()
+    
+    print("*** VBG zkinterface constraints, input, witness, written to corresponding .zkif files")
+
+    # circuit_buf = write_circuit()
+    # print("curcuit_buf", circuit_buf)
+
+    # witness_buf = write_witness()
+    # constaints_buf = write_constraints()
+    
+    # write_witness(f)
+    # write_constraints(f)
+
+    #main_spzk(circuit_buf, constaints_buf, witness_buf)
+
+   
+
+def write_input(f):    
+    print("*** VBG zkinterface: writing circuit", file=sys.stderr)
     
     builder = flatbuffers.Builder(1024)
 
+    #create a list of public vals for CircuitHeader 
     vars = write_varlist(builder, pubvals, 1)
     
     CircuitHeader.CircuitHeaderStartFieldMaximumVector(builder, BL)
@@ -134,10 +152,11 @@ def write_circuit(f):
         
     builder.FinishSizePrefixed(root)
     buf = builder.Output()
+    #return buf
     f.write(buf)
     
 def write_witness(f):    
-    print("*** zkinterface: writing witness", file=sys.stderr)
+    print("*** VBG zkinterface: writing witness", file=sys.stderr)
     
     # build witness
     builder = flatbuffers.Builder(1024)
@@ -155,10 +174,11 @@ def write_witness(f):
     
     builder.FinishSizePrefixed(root)
     buf = builder.Output()
+    #return buf
     f.write(buf)    
     
 def write_constraints(f):    
-    print("*** zkinterface: writing constraints", file=sys.stderr)
+    print("*** VBG zkinterface: writing constraints", file=sys.stderr)
     
     builder = flatbuffers.Builder(1024)
     
@@ -213,5 +233,6 @@ def write_constraints(f):
     
     builder.FinishSizePrefixed(root)
     buf = builder.Output()
+    #return buf
     f.write(buf)
 
